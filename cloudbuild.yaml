@@ -1,0 +1,19 @@
+steps:
+- name: 'node:14'
+  entrypoint: 'npm'
+  args: ['install']
+
+- name: 'node:14'
+  entrypoint: 'npm'
+  args: ['run', 'build']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy', '--project=$PROJECT_ID']
+  env:
+  - 'CLOUDSDK_CORE_PROJECT=$PROJECT_ID'
+  - 'CLOUDSDK_APP_DEPLOY_REGION=$REGION'
+
+artifacts:
+  objects:
+    location: 'gs://$PROJECT_ID-docusaurus-bucket'
+    paths: ['build/**']
