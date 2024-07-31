@@ -1,9 +1,9 @@
 steps:
-- name: 'node:14'
+- name: 'node:latest'
   entrypoint: 'npm'
   args: ['install']
 
-- name: 'node:14'
+- name: 'node:latest'
   entrypoint: 'npm'
   args: ['run', 'build']
 
@@ -11,9 +11,10 @@ steps:
   args: ['app', 'deploy', '--project=$PROJECT_ID']
   env:
   - 'CLOUDSDK_CORE_PROJECT=$PROJECT_ID'
-  - 'CLOUDSDK_APP_DEPLOY_REGION=$REGION'
-
+  - 'CLOUDSDK_APP_DEPLOY_REGION=$LOCATION'
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 artifacts:
   objects:
-    location: 'gs://$PROJECT_ID-docusaurus-bucket'
+    location: 'gs://$PROJECT_NUMBER-docusaurus-bucket'
     paths: ['build/**']
